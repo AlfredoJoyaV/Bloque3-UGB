@@ -24,6 +24,28 @@ app.get('/libros', (_req: Request, res: Response): void => {
     res.json(libros);
 });
 
+// GET Buscar libros por nombre (query parameter)
+// IMPORTANTE: Esta ruta debe ir ANTES de /libros/:id
+app.get('/libros/buscar', (req: Request, res: Response): void => {
+    const name: string | undefined = req.query['name'] as string;
+
+    if (!name) {
+        res.status(400).json({ mensaje: "Debe proporcionar un parámetro 'name' para la búsqueda." });
+        return;
+    }
+
+    const terminoBusqueda = name.toLowerCase();
+    const resultados: Libro[] = libros.filter(libro =>
+        libro.name.toLowerCase().includes(terminoBusqueda)
+    );
+
+    if (resultados.length > 0) {
+        res.json(resultados);
+    } else {
+        res.status(404).json({ mensaje: `No se encontraron libros que contengan: '${name}'` });
+    }
+});
+
 // GET para busqueda de libros almacenados
 
 // Llamar con numero ID

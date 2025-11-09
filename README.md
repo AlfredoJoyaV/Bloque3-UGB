@@ -50,7 +50,48 @@ curl http://localhost:3000/libros
 
 ---
 
-### 2. Obtener un Libro por ID
+### 2. Buscar Libros por Nombre
+**GET** `/libros/buscar?name=texto`
+
+Busca libros que contengan el texto especificado en su nombre (búsqueda insensible a mayúsculas/minúsculas).
+
+**Parámetros de consulta (query):**
+- `name` (string, obligatorio): Texto a buscar en el nombre del libro
+
+**Ejemplo:**
+```bash
+curl http://localhost:3000/libros/buscar?name=gatsby
+```
+
+**Respuesta exitosa (200):**
+```json
+[
+  {
+    "id": 4,
+    "name": "El Gran Gatsby",
+    "year_of_publication": 1925,
+    "author": "F. Scott Fitzgerald"
+  }
+]
+```
+
+**Respuesta error (400) - Sin parámetro:**
+```json
+{
+  "mensaje": "Debe proporcionar un parámetro 'name' para la búsqueda."
+}
+```
+
+**Respuesta error (404) - Sin resultados:**
+```json
+{
+  "mensaje": "No se encontraron libros que contengan: 'xyz'"
+}
+```
+
+---
+
+### 3. Obtener un Libro por ID
 **GET** `/libros/:id`
 
 Obtiene los detalles de un libro específico por su ID.
@@ -79,7 +120,7 @@ curl http://localhost:3000/libros/1
 
 ---
 
-### 3. Crear un Nuevo Libro
+### 4. Crear un Nuevo Libro
 **POST** `/libros`
 
 Crea un nuevo libro en la biblioteca.
@@ -127,6 +168,16 @@ curl -X POST http://localhost:3000/libros \
   "mensaje": "Datos invalidos o faltantes. Se requiere 'name' (string) y 'year_of_publication' (number)."
 }
 ```
+
+---
+
+## 🛠️ Tecnologías
+
+- **Node.js** + **TypeScript**
+- **Express** 5.x
+- **ESM** (Módulos ES6)
+
+---
 
 ## 📦 Estructura del Proyecto
 
